@@ -1,0 +1,15 @@
+*.class
+*.classpath
+*.settings
+*.project
+*.bak
+target/
+classes/
+META-INF/
+.settings/
+.mymetadata
+*.log
+.idea
+*.iml
+docs/
+bin/
