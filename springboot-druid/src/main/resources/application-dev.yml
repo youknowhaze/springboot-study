@@ -1,0 +1,18 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /incredible
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://192.168.106.128:3306/tests?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Hongkong
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+    druid:
+      stat-view-servlet:
+        login-username: manager
+        login-password: 123456
+        # 只能是/druid/*，否则会404找不到路径
+        url-pattern: /druid/*
+        enabled: true
