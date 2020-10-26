@@ -5,11 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import java.io.File;
+
 
 @SpringBootTest
 class SpringbootDoingApplicationTests {
@@ -31,6 +33,24 @@ class SpringbootDoingApplicationTests {
 
         javaMailSender.send(simpleMailMessage);
     }
+
+    @Test
+    void emailTest2() throws MessagingException {
+        MimeMessage mimeMailMessage = javaMailSender.createMimeMessage();
+        // 组装,设置能否添加参数为true
+
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMailMessage,true);
+        helper.setFrom("458051205@qq.com");
+        helper.setSubject("springboot email test");
+        helper.setText("this is a test message");
+        // 添加附件
+        helper.addAttachment("1.jpg", new File("C:\\Users\\incredible\\Desktop\\1.jpg"));
+        helper.addAttachment("2.jpg", new File("C:\\Users\\incredible\\Desktop\\1.jpg"));
+
+        helper.setTo("326877062@qq.com");
+        javaMailSender.send(mimeMailMessage);
+    }
+
 
     @Test
     void redisTest(){
