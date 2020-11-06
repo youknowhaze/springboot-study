@@ -1,0 +1,15 @@
+server:
+  port: 8081
+spring:
+  mail:
+    username: 458051205@qq.com
+    password: xntufimkwilibibf
+    host: smtp.qq.com
+    default-encoding: UTF-8
+  redis:
+    host: 192.168.106.128
+    port: 6379
+    password: redis123
+    lettuce:
+      pool:
+        max-active: 8

@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.net.UnknownHostException;
@@ -22,7 +23,7 @@ import java.net.UnknownHostException;
 @Configuration
 public class RedisConfig {
 
-    @Bean
+    @Bean("incredibleRedis")
     public RedisTemplate<String,Object> redisTemplate(RedisConnectionFactory redisConnectionFactory)
             throws UnknownHostException {
         RedisTemplate<String,Object> redisTemplate = new RedisTemplate<>();
@@ -30,7 +31,7 @@ public class RedisConfig {
 
         //设置序列化器
 
-        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer =
+       /* Jackson2JsonRedisSerializer jackson2JsonRedisSerializer =
                 new Jackson2JsonRedisSerializer(Object.class);
 
         // jackSon所带的序列化器
@@ -38,16 +39,19 @@ public class RedisConfig {
         objectMapper.setVisibility(PropertyAccessor.ALL,JsonAutoDetect.Visibility.ANY);
         objectMapper.activateDefaultTyping(LaissezFaireSubTypeValidator.instance ,
                 ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
-        jackson2JsonRedisSerializer.setObjectMapper(objectMapper);
+        jackson2JsonRedisSerializer.setObjectMapper(objectMapper);*/
 
-        // 字符序列化器
-        StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
+        // 字符序列化器,建议从redisTemplete中获得
+        //StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
+        //
+        RedisSerializer<String> stringRedisSerializer = redisTemplate.getStringSerializer();
 
         redisTemplate.setKeySerializer(stringRedisSerializer);
         redisTemplate.setHashKeySerializer(stringRedisSerializer);
-
-        redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
-        redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer);
+        redisTemplate.setValueSerializer(stringRedisSerializer);
+        redisTemplate.setHashValueSerializer(stringRedisSerializer);
+        /*redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
+        redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer);*/
 
         return redisTemplate;
     }
